@@ -16,27 +16,27 @@ module.exports = {
     nav: [
       { text: '前端深入', link: '/jsdeep/' }, // 内部链接 以docs为根目录
       { text: '随笔', link: '/mywrite/' }, // 
-      { text: '掘金', link: 'http://obkoro1.com/' }, // 外部链接
+      { text: 'blgo', link: 'https://juejin.im/user/5c35ebf96fb9a049e12a65d8' }, // 外部链接
       // 下拉列表
-      {
-        text: 'GitHub',
-        items: [
-          { text: 'GitHub地址', link: 'https://github.com/OBKoro1' },
-          {
-            text: '算法仓库',
-            link: 'https://github.com/OBKoro1/Brush_algorithm'
-          }
-        ]
-      }
+      // {
+      //   text: 'GitHub',
+      //   items: [
+      //     { text: 'GitHub地址', link: 'https://github.com/OBKoro1' },
+      //     {
+      //       text: '算法仓库',
+      //       link: 'https://github.com/OBKoro1/Brush_algorithm'
+      //     }
+      //   ]
+      // }
     ],
     sidebar: {
       '/jsdeep/': [
-        '/jsdeep/', // 文件夹的README.md 不是下拉框形式
+        //'/jsdeep/', // 文件夹的README.md 不是下拉框形式
         {
-          title: 'echart',
+          title: 'JS基础深入',
           collapsable: false,
           children: [
-            '/jsdeep/one', '/jsdeep/two'
+            '/jsdeep/scope', '/jsdeep/two'
           ]
         }
       ],
