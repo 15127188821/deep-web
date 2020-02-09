@@ -59,7 +59,7 @@ module.exports = {
       }
     },
     //git相关开始
-    repo: 'vuejs/vuepress',
+    repo: '15127188821/deep-web',
     // 自定义项目仓库链接文字
     // 默认根据 `themeConfig.repo` 中的 URL 来自动匹配是 "GitHub"/"GitLab"/"Bitbucket" 中的哪个，如果不设置时是 "Source"。
     // repoLabel: 'GitHub',
