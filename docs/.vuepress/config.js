@@ -36,7 +36,7 @@ module.exports = {
           title: 'JS基础深入',
           collapsable: false,
           children: [
-            '/jsdeep/scope', '/jsdeep/two'
+            '/jsdeep/scope', '/jsdeep/faceobj'
           ]
         }
       ],
