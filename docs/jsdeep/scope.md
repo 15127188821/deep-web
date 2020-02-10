@@ -1,3 +1,5 @@
+
+
 # 变量提升作用域this原理及应用
 
 ## 变量提升
@@ -123,4 +125,143 @@ function fn(num1, num2) {
 fn(100, 200)
 console.log(total)  //300
 ```
+
+## 内存释放和作用域销毁
+
+### 堆内存
+
+对象数据类型或者函数数据类型在定义的时候首先会开辟一个堆内存，堆内存有一个引用的地址，如果外面有变量等是用来这个地址，那么就是内存被占用了，就不能被销毁了
+
+当需要堆内存释放、销毁的时候，只需要把所有引用到它的变量值赋值为null即可，如果当前堆内存没有任何东西被占用了，那马浏览器会在空闲的时候把它销毁
+
+### 栈内存
+
+全局作用域：只有当页面关闭的时候全局作用域才会销毁
+
+私有作用域（只有函数执行才会产生私有作用域）：
+
++ 一般情况下，函数执行会形成一个新的私有作用域，当私有作用域被内存以外的东西占用了，那么这个作用域就不能销毁了
++ 函数执行返回了一个引用数据类型的值，并且在函数外面被一个其他的东西给接收了，这种情况下一般形成的私有作用域都不会销毁
+
+```js
+function fn(){
+	var num = 100
+	return function(){}
+}
+var f = fn()  //fn执行形成的这个私有作用域就不能再销毁了
+```
++ fn返回的函数没有被其他的东西占用，但是还需要执行一次，所以暂时不销毁，当返回的值执行完成后，浏览器会在空闲的时候把他销毁掉
+```js
+function fn(){
+	var num = 100
+	return function(){}
+}
+var f = fn()()  //fn执行，返回一个小函数对应的内存地址，然后紧接着让返回的小函数再执行
+```
+
+### 练习题
+
+```js
+function fn(){
+    var i = 10
+    return function (n) {
+        console.log(n + (++i))
+    }
+}
+var f = fn()
+f(10)  //21
+f(20)  //32
+fn()(10)  //21
+fn()(20)  //31
+```
+
+```js
+function fn(i){
+    return function (n) {
+        console.log(n + i++)
+    }
+}
+var f = fn(13)
+f(12)  //25
+f(14)  //28
+fn(15)(12)  //27
+fn(16)(13)  //29
+```
+
+## this指向
+
+JS中的this代表的是当前行为执行的主体；JS中的context代表的是当前行为执行的环境（区域）
+
+> 例：不是酸柠檬在GitHub写博客，this：不是酸柠檬    context：GitHub
+
+this是谁和函数在哪里定义在哪里执行的都没有任何关系
+
+### 如何区分this？
+
++ 函数执行首先看函数名前是否有**"."**，有的话点前面是谁，this就是谁，没有的话this就是window
+
+```js
+function fn(){
+    console.log(this)
+}
+var obj = {fn:fn}
+fn() //window
+obj.fn() //obj
+function sum(){
+    fn() 
+}
+sun() //window
+var cc = {
+    sum:function(){
+        fn() 
+    }
+}
+cc.sum() //window
+```
++ 自执行函数的this永远是window
+```js
+~function fn(){console.log(this)}()  //window
+```
+
++ 给元素的某一个事件绑定方法，当时间触发的时候，执行对应的方法，方法中的this是当前的元素
+
+```html
+<div id="click">
+    click me!
+</div>
+<script>
+function fn(){
+    console.log(this)
+}
+document.querySelector('#click').onclick = fn
+//<div id="click">click me!</div>
+document.querySelector('#click').onclick = function(){fn()}
+//window
+</script>
+```
+
+## 综合练习
+
+```js
+var num = 20
+var obj = {
+    num: 30,
+    fn: (function (num) {
+        this.num *= 3
+        num += 15
+        var num = 45
+        return function () {
+            this.num *= 4
+            num += 20
+            console.log(num)
+        }
+    })(num) //num值是全局变量中的20，而不是obj下面的30，如果想赋值obj下面的应该写obj.num
+}
+var fn = obj.fn
+fn() //65
+obj.fn() //85
+console.log(window.num,obj.num) //240,120
+```
+
+![img](/jsimages/001.png)
 

@@ -14,7 +14,7 @@ cd docs/.vuepress/dist
 
 git init
 git add -A
-git commit -m 'init'
+git commit -m 'update'
 
 # 如果发布到 https://<USERNAME>.github.io  USERNAME=你的用户名 
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
